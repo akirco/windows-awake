@@ -1,25 +1,31 @@
-# Windows 电源管理器
+# Windows Power Manager
 
-一个用于管理 Windows 系统电源状态的 Rust 库，支持睡眠、休眠和防止系统休眠等功能。
+[中文说明](/README_ZH_CN.md)
 
-## 主要特性
+A Rust library for managing Windows system power states, including sleep, hibernation, and wake prevention.
 
-- 🔒 防止系统睡眠和显示器超时
-- ⏰ 定时系统睡眠（带倒计时）
-- 💤 强制系统睡眠或休眠
-- 🔄 恢复默认电源设置
-- ⚡ 集成底层 Windows 电源管理 API
+<!-- [![Crates.io](https://img.shields.io/crates/v/windows_awake)](https://crates.io/crates/windows_awake)
+[![Documentation](https://docs.rs/windows_awake/badge.svg)](https://docs.rs/windows_awake)
+[![License](https://img.shields.io/crates/l/windows_awake)](LICENSE) -->
 
-## 安装
+## Features
 
-在 `Cargo.toml` 中添加：
+- 🔒 Prevent system sleep and display timeout
+- ⏰ Schedule system sleep with countdown
+- 💤 Force system sleep or hibernation
+- 🔄 Restore default power settings
+- ⚡ Low-level Windows power management API integration
+
+## Installation
+
+Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
 windows-awake = {git="https://github.com/akirco/windows-awake.git"，branch = "master"}
 ```
 
-## 快速开始
+## Quick Start
 
 ```rust
 use windows_awake::PowerManager;
@@ -29,84 +35,84 @@ use std::time::Duration;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let power_manager = PowerManager::new();
 
-    // 保持系统唤醒 30 分钟
+    // Keep system awake for 30 minutes
     power_manager.keep_awake_for_minutes(30)?;
 
-    // 或者无限期保持系统唤醒
+    // Or keep system awake indefinitely
     power_manager.keep_awake_indefinite()?;
 
-    // 立即使系统进入睡眠状态
+    // Put system to sleep immediately
     power_manager.force_sleep(false, false, false)?;
 
     Ok(())
 }
 ```
 
-## 使用示例
+## Usage Examples
 
-### 保持系统唤醒
+### Keep System Awake
 
 ```rust
 use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
-// 无限期防止系统睡眠
+// Prevent system sleep indefinitely
 power_manager.keep_awake_indefinite()?;
 
-// 在指定时间内保持系统唤醒（以分钟为单位）
-power_manager.keep_awake_for_minutes(60)?; // 保持唤醒1小时
+// Keep system awake for specific duration (in minutes)
+power_manager.keep_awake_for_minutes(60)?; // Keep awake for 1 hour
 ```
 
-### 控制系统睡眠状态
+### Control System Sleep States
 
 ```rust
 use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
-// 普通睡眠模式
+// Normal sleep mode
 power_manager.force_sleep(false, false, false)?;
 
-// 休眠模式
+// Hibernation mode
 power_manager.force_sleep(true, false, false)?;
 
-// 强制睡眠（忽略其他应用程序的阻止）
+// Force sleep (bypass application blocks)
 power_manager.force_sleep(false, true, true)?;
 ```
 
-### 恢复默认设置
+### Restore Default Settings
 
 ```rust
 use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
-// 恢复系统默认电源设置
+// Restore system default power settings
 power_manager.restore_default()?;
 ```
 
-## 交互式演示
+## Interactive Demo
 
-库包含一个交互式演示应用程序，展示了所有功能。使用以下命令运行：
+The library includes an interactive demo application that showcases all features. Run it using:
 
 ```bash
 cargo run --example power_management_demo
 ```
 
-## API 参考
+## API Reference
 
 ### PowerManager
 
-- `new()` - 创建新的 PowerManager 实例
-- `keep_awake_indefinite()` - 无限期防止系统睡眠
-- `keep_awake_for_minutes(minutes: u32)` - 在指定时间内防止睡眠
-- `force_sleep(hibernate: bool, force: bool, disable_wake_events: bool)` - 控制系统睡眠状态
-- `restore_default()` - 恢复默认电源设置
+- `new()` - Create a new PowerManager instance
+- `keep_awake_indefinite()` - Prevent system sleep indefinitely
+- `keep_awake_for_minutes(minutes: u32)` - Prevent sleep for specified duration
+- `force_sleep(hibernate: bool, force: bool, disable_wake_events: bool)` - Control system sleep state
+- `restore_default()` - Restore default power settings
 
-## 错误处理
+## Error Handling
 
-库使用自定义的 `PowerError` 枚举进行错误处理：
+The library uses a custom `PowerError` enum for error handling:
 
 ```rust
 pub enum PowerError {
@@ -116,60 +122,56 @@ pub enum PowerError {
 }
 ```
 
-## 系统要求
+## Requirements
 
-- Windows 操作系统
-- Rust 1.56 或更高版本
-- 某些操作可能需要管理员权限
+- Windows operating system
+- Rust 1.56 or later
+- Administrator privileges may be required for some operations
 
-## 常见问题及解决方案
+## Common Issues and Solutions
 
-1. **睡眠/休眠无法正常工作**
+1. **Sleep/Hibernate Not Working**
+   - Ensure your system has hibernation enabled
+   - Run the application with administrator privileges
+   - Check if other applications are blocking sleep state
 
-   - 确保系统已启用休眠功能
-   - 以管理员权限运行应用程序
-   - 检查是否有其他应用程序阻止睡眠状态
+2. **Permission Errors**
+   - Run the application as administrator
+   - Check Windows power settings
 
-2. **权限错误**
+3. **Wake Prevention Not Working**
+   - Verify no other applications are modifying power settings
+   - Check system power policy settings
 
-   - 以管理员身份运行应用程序
-   - 检查 Windows 电源设置
+## Contributing
 
-3. **防止睡眠功能不起作用**
-   - 验证没有其他应用程序修改电源设置
-   - 检查系统电源策略设置
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-## 贡献
+## License
 
-欢迎提供贡献！请随时提交 Pull Request。对于重大更改，请先开一个 issue 讨论您想要更改的内容。
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
-
-## 版本历史
+## Version History
 
 - 0.1.0 (2025-02-21)
-  - 初始发布
-  - 基本电源管理功能
-  - 交互式演示应用程序
+  - Initial release
+  - Basic power management features
+  - Interactive demo application
 
-## 作者
+## Credits
 
-由 cocshank 创建于 2025-02-21
+Created by akirco on 2025-02-21
 
-## 支持
+## Support
 
-如果遇到任何问题或需要帮助，请：
+If you encounter any issues or need help, please:
+1. Check the [Issues](https://github.com/akirco/windows-awake/issues) page
+2. Create a new issue if your problem isn't already listed
+3. Include your Windows version and Rust version when reporting issues
 
-1. 查看 [Issues](https://github.com/akirco/windows-awake/issues) 页面
-2. 如果您的问题尚未列出，请创建新的 issue
-3. 报告问题时请包含您的 Windows 版本和 Rust 版本
+## Safety Notes
 
-## 安全注意事项
-
-⚠️ **重要：**
-
-- 在强制睡眠或休眠之前，请始终保存您的工作
-- 使用 `force_sleep` 时请谨慎，特别是当 `force = true` 时
-- 长时间防止系统睡眠时，请考虑对系统的整体影响
+⚠️ **Important:**
+- Always save your work before forcing sleep or hibernation
+- Be cautious with `force_sleep` when using `force = true`
+- Consider system-wide impacts when preventing sleep for long periods
