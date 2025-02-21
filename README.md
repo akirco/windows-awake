@@ -16,7 +16,7 @@
 
 ```toml
 [dependencies]
-windows-awake = "0.1.0"
+windows-awake = {git="https://github.com/akirco/windows-awake.git"，branch = "master"}
 ```
 
 ## 快速开始
@@ -125,11 +125,13 @@ pub enum PowerError {
 ## 常见问题及解决方案
 
 1. **睡眠/休眠无法正常工作**
+
    - 确保系统已启用休眠功能
    - 以管理员权限运行应用程序
    - 检查是否有其他应用程序阻止睡眠状态
 
 2. **权限错误**
+
    - 以管理员身份运行应用程序
    - 检查 Windows 电源设置
 
@@ -159,6 +161,7 @@ pub enum PowerError {
 ## 支持
 
 如果遇到任何问题或需要帮助，请：
+
 1. 查看 [Issues](https://github.com/akirco/windows-awake/issues) 页面
 2. 如果您的问题尚未列出，请创建新的 issue
 3. 报告问题时请包含您的 Windows 版本和 Rust 版本
@@ -166,6 +169,7 @@ pub enum PowerError {
 ## 安全注意事项
 
 ⚠️ **重要：**
+
 - 在强制睡眠或休眠之前，请始终保存您的工作
 - 使用 `force_sleep` 时请谨慎，特别是当 `force = true` 时
 - 长时间防止系统睡眠时，请考虑对系统的整体影响
