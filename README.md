@@ -16,13 +16,13 @@
 
 ```toml
 [dependencies]
-windows-power-manager = "0.1.0"
+windows-awake = "0.1.0"
 ```
 
 ## 快速开始
 
 ```rust
-use windows_power_manager::PowerManager;
+use windows_awake::PowerManager;
 use std::thread;
 use std::time::Duration;
 
@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### 保持系统唤醒
 
 ```rust
-use windows_power_manager::PowerManager;
+use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
@@ -61,7 +61,7 @@ power_manager.keep_awake_for_minutes(60)?; // 保持唤醒1小时
 ### 控制系统睡眠状态
 
 ```rust
-use windows_power_manager::PowerManager;
+use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
@@ -78,7 +78,7 @@ power_manager.force_sleep(false, true, true)?;
 ### 恢复默认设置
 
 ```rust
-use windows_power_manager::PowerManager;
+use windows_awake::PowerManager;
 
 let power_manager = PowerManager::new();
 
@@ -159,7 +159,7 @@ pub enum PowerError {
 ## 支持
 
 如果遇到任何问题或需要帮助，请：
-1. 查看 [Issues](https://github.com/yourusername/windows-power-manager/issues) 页面
+1. 查看 [Issues](https://github.com/akirco/windows-awake/issues) 页面
 2. 如果您的问题尚未列出，请创建新的 issue
 3. 报告问题时请包含您的 Windows 版本和 Rust 版本
 
